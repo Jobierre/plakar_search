@@ -43,5 +43,8 @@
 - [ ] [T036] Valider les scenarios [P2] (multi-stores), [P3] (filtres), [P7] (store inaccessible), [P8] (status) — manuel
 
 ## Notes de Session
-<!-- Les notes sont ajoutees automatiquement par /implement -->
-<!-- Format : ### Session YYYY-MM-DD HH:MM -->
+
+### Session 2026-04-27 23:19
+- Complete : T001 — Creation de la structure du package (src/plakar_search/__init__.py + __main__.py)
+- Observations : Projet greenfield, rien n'existait a part .git et .claude
+- Prochaine : T002
