@@ -1,5 +1,19 @@
+import pymupdf
+
+
 def _extract_text(data: bytes) -> str:
     return data.decode("utf-8", errors="ignore")
+
+
+def _extract_pdf(data: bytes) -> str:
+    doc = pymupdf.open(stream=data)
+    texts = []
+    for page in doc:
+        t = page.get_text()
+        if t:
+            texts.append(t)
+    doc.close()
+    return "\n".join(texts)
 
 
 EXTENSIONS: dict[str, object] = {
@@ -14,6 +28,7 @@ EXTENSIONS: dict[str, object] = {
     ".yaml": _extract_text,
     ".yml": _extract_text,
     ".xml": _extract_text,
+    ".pdf": _extract_pdf,
 }
 
 SKIP_EXTENSIONS: set[str] = {
