@@ -7,7 +7,7 @@
 ## Phase 1 — Setup & Preparation
 
 - [x] [T001] Creer la structure du projet : `src/plakar_search/` + `__init__.py` + `__main__.py` — `src/plakar_search/`
-- [ ] [T002] Creer `pyproject.toml` avec metadonnees et toutes les dependances — `pyproject.toml`
+- [x] [T002] Creer `pyproject.toml` avec metadonnees et toutes les dependances — `pyproject.toml`
 - [ ] [T003] Creer `config.py` : chemins `~/.plakar-search/stores/`, nommage des dossiers store (`_store_dir_name`), constantes — `src/plakar_search/config.py`
 
 ## Phase 2 — Core Implementation
@@ -46,5 +46,6 @@
 
 ### Session 2026-04-27 23:19
 - Complete : T001 — Creation de la structure du package (src/plakar_search/__init__.py + __main__.py)
+- Complete : T002 — Creation du pyproject.toml avec metadonnees et toutes les dependances
 - Observations : Projet greenfield, rien n'existait a part .git et .claude
-- Prochaine : T002
+- Prochaine : T003
