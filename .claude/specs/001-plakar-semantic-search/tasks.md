@@ -13,7 +13,7 @@
 ## Phase 2 — Core Implementation
 
 - [x] [T010] [REQ-050,051,052,053,054] Creer `plakar_client.py` : classe `PlakarClient` avec `list_snapshots()`, `list_files(snapshot)`, `cat(snapshot, path)`, gestion passphrase (auto pour @store, env var pour path) — `src/plakar_search/plakar_client.py`
-- [ ] [T011] [REQ-010,011,016] Creer `extractors.py` : registry dict `EXTENSIONS` pour formats texte brut (.txt, .md, .py, .js, .html, .css, .json, .yaml, .xml, .csv) + set `SKIP_EXTENSIONS` pour fichiers binaires ignores — `src/plakar_search/extractors.py`
+- [x] [T011] [REQ-010,011,016] Creer `extractors.py` : registry dict `EXTENSIONS` pour formats texte brut (.txt, .md, .py, .js, .html, .css, .json, .yaml, .xml, .csv) + set `SKIP_EXTENSIONS` pour fichiers binaires ignores — `src/plakar_search/extractors.py`
 - [ ] [T012] [REQ-012] Ajouter extracteur PDF dans `extractors.py` via pymupdf (`pymupdf.open(stream=bytes)`) — `src/plakar_search/extractors.py`
 - [ ] [T013] [REQ-013,014] Ajouter extracteurs .docx (python-docx) et .xlsx (openpyxl) dans `extractors.py` — `src/plakar_search/extractors.py`
 - [ ] [T014] [REQ-015] Ajouter extracteur EXIF/metadonnees image dans `extractors.py` via `PIL.Image._getexif()` — `src/plakar_search/extractors.py`
@@ -49,5 +49,6 @@
 - Complete : T002 — Creation du pyproject.toml avec metadonnees et toutes les dependances
 - Complete : T003 — Creation de config.py (HOME_DIR, STORES_DIR, store_dir_name(), helpers de path)
 - Complete : T010 — Creation de plakar_client.py (wrapper subprocess, gestion passphrase @store vs /path)
+- Complete : T011 — Creation de extractors.py (registry EXTENSIONS + SKIP_EXTENSIONS)
 - Observations : Projet greenfield, rien n'existait a part .git et .claude
-- Prochaine : T011
+- Prochaine : T012
