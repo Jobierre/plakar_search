@@ -6,7 +6,7 @@
 
 ## Phase 1 — Setup & Preparation
 
-- [ ] [T001] Creer la structure du projet : `src/plakar_search/` + `__init__.py` + `__main__.py` — `src/plakar_search/`
+- [x] [T001] Creer la structure du projet : `src/plakar_search/` + `__init__.py` + `__main__.py` — `src/plakar_search/`
 - [ ] [T002] Creer `pyproject.toml` avec metadonnees et toutes les dependances — `pyproject.toml`
 - [ ] [T003] Creer `config.py` : chemins `~/.plakar-search/stores/`, nommage des dossiers store (`_store_dir_name`), constantes — `src/plakar_search/config.py`
 

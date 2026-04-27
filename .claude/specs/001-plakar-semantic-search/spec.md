@@ -2,7 +2,7 @@
 
 ## Metadata
 - Cree : 2026-04-27
-- Status : Draft
+- Status : In Progress
 - Branche : feature/001-plakar-semantic-search
 
 ## Resume
