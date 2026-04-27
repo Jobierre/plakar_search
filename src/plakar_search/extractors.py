@@ -1,4 +1,8 @@
+import io
+
 import pymupdf
+import openpyxl
+from docx import Document
 
 
 def _extract_text(data: bytes) -> str:
@@ -16,6 +20,24 @@ def _extract_pdf(data: bytes) -> str:
     return "\n".join(texts)
 
 
+def _extract_docx(data: bytes) -> str:
+    doc = Document(io.BytesIO(data))
+    return "\n".join(p.text for p in doc.paragraphs if p.text)
+
+
+def _extract_xlsx(data: bytes) -> str:
+    wb = openpyxl.load_workbook(io.BytesIO(data), read_only=True, data_only=True)
+    texts = []
+    for sheet_name in wb.sheetnames:
+        ws = wb[sheet_name]
+        for row in ws.iter_rows(values_only=True):
+            row_text = " ".join(str(v) for v in row if v is not None)
+            if row_text:
+                texts.append(row_text)
+    wb.close()
+    return "\n".join(texts)
+
+
 EXTENSIONS: dict[str, object] = {
     ".txt": _extract_text,
     ".md": _extract_text,
@@ -29,6 +51,8 @@ EXTENSIONS: dict[str, object] = {
     ".yml": _extract_text,
     ".xml": _extract_text,
     ".pdf": _extract_pdf,
+    ".docx": _extract_docx,
+    ".xlsx": _extract_xlsx,
 }
 
 SKIP_EXTENSIONS: set[str] = {
