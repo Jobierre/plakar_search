@@ -20,7 +20,7 @@
 - [x] [T015] [REQ-020,022,023] Creer `embedder.py` : singleton `get_egemma()` chargeant `google/embeddinggemma-300m` via `SentenceTransformer`, methode `encode_text_queries()` et `encode_text_documents()` — `src/plakar_search/embedder.py`
 - [x] [T016] [REQ-021,022,023] Ajouter `get_siglip()` dans `embedder.py` chargeant `google/siglip2-base-patch16-224` via `AutoModel`+`AutoProcessor`, methodes `encode_image()` et `encode_text_query()` — `src/plakar_search/embedder.py`
 - [x] [T017] [REQ-030,031,032,033] Creer `store.py` : classe `VectorStore` wrappant `chromadb.PersistentClient`, methodes `get_or_create_collections()`, `add_text()`, `add_image()`, `query_text()`, `query_images()` — `src/plakar_search/store.py`
-- [ ] [T018] [REQ-034] Creer `state.py` : classes `IndexState` avec load/save JSON, tracking snapshots (pending/in_progress/done) — `src/plakar_search/state.py`
+- [x] [T018] [REQ-034] Creer `state.py` : classes `IndexState` avec load/save JSON, tracking snapshots (pending/in_progress/done) — `src/plakar_search/state.py`
 
 ## Phase 3 — Integration & Wiring
 
@@ -56,5 +56,6 @@
 - Complete : T015 — Creation du module embedder (singleton EmbeddingGemma-300M)
 - Complete : T016 — Ajout singleton SigLIP2 (encode_image + encode_text_query)
 - Complete : T017 — Creation du wrapper VectorStore (ChromaDB PersistentClient, collections text/images, add/query)
+- Complete : T018 — Creation de state.py (IndexState load/save JSON, tracking snapshots, atomic write)
 - Observations : Projet greenfield, rien n'existait a part .git et .claude
-- Prochaine : T018
+- Prochaine : T020
