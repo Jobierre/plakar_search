@@ -16,7 +16,7 @@
 - [x] [T011] [REQ-010,011,016] Creer `extractors.py` : registry dict `EXTENSIONS` pour formats texte brut (.txt, .md, .py, .js, .html, .css, .json, .yaml, .xml, .csv) + set `SKIP_EXTENSIONS` pour fichiers binaires ignores — `src/plakar_search/extractors.py`
 - [x] [T012] [REQ-012] Ajouter extracteur PDF dans `extractors.py` via pymupdf (`pymupdf.open(stream=bytes)`) — `src/plakar_search/extractors.py`
 - [x] [T013] [REQ-013,014] Ajouter extracteurs .docx (python-docx) et .xlsx (openpyxl) dans `extractors.py` — `src/plakar_search/extractors.py`
-- [ ] [T014] [REQ-015] Ajouter extracteur EXIF/metadonnees image dans `extractors.py` via `PIL.Image._getexif()` — `src/plakar_search/extractors.py`
+- [x] [T014] [REQ-015] Ajouter extracteur EXIF/metadonnees image dans `extractors.py` via `PIL.Image.getexif()` — `src/plakar_search/extractors.py`
 - [ ] [T015] [REQ-020,022,023] Creer `embedder.py` : singleton `get_egemma()` chargeant `google/embeddinggemma-300m` via `SentenceTransformer`, methode `encode_text_queries()` et `encode_text_documents()` — `src/plakar_search/embedder.py`
 - [ ] [T016] [REQ-021,022,023] Ajouter `get_siglip()` dans `embedder.py` chargeant `google/siglip2-base-patch16-224` via `AutoModel`+`AutoProcessor`, methodes `encode_image()` et `encode_text_query()` — `src/plakar_search/embedder.py`
 - [ ] [T017] [REQ-030,031,032,033] Creer `store.py` : classe `VectorStore` wrappant `chromadb.PersistentClient`, methodes `get_or_create_collections()`, `add_text()`, `add_image()`, `query_text()`, `query_images()` — `src/plakar_search/store.py`
@@ -52,5 +52,6 @@
 - Complete : T011 — Creation de extractors.py (registry EXTENSIONS + SKIP_EXTENSIONS)
 - Complete : T012 — Ajout extracteur PDF via pymupdf
 - Complete : T013 — Ajout extracteurs .docx et .xlsx
+- Complete : T014 — Ajout extracteur EXIF via Pillow
 - Observations : Projet greenfield, rien n'existait a part .git et .claude
-- Prochaine : T014
+- Prochaine : T015

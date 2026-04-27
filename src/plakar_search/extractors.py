@@ -3,6 +3,7 @@ import io
 import pymupdf
 import openpyxl
 from docx import Document
+from PIL import Image, ExifTags
 
 
 def _extract_text(data: bytes) -> str:
@@ -38,6 +39,21 @@ def _extract_xlsx(data: bytes) -> str:
     return "\n".join(texts)
 
 
+def _extract_exif(data: bytes) -> str:
+    img = Image.open(io.BytesIO(data))
+    exif = img.getexif()
+    if not exif:
+        return ""
+
+    parts = []
+    for tag_id, value in exif.items():
+        if tag_id in ExifTags.TAGS:
+            tag_name = ExifTags.TAGS[tag_id]
+            parts.append(f"{tag_name}: {value}")
+
+    return "\n".join(parts)
+
+
 EXTENSIONS: dict[str, object] = {
     ".txt": _extract_text,
     ".md": _extract_text,
@@ -53,6 +69,10 @@ EXTENSIONS: dict[str, object] = {
     ".pdf": _extract_pdf,
     ".docx": _extract_docx,
     ".xlsx": _extract_xlsx,
+    ".jpg": _extract_exif,
+    ".jpeg": _extract_exif,
+    ".png": _extract_exif,
+    ".heic": _extract_exif,
 }
 
 SKIP_EXTENSIONS: set[str] = {
