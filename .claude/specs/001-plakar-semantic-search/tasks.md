@@ -35,7 +35,7 @@
 ## Phase 4 — Tests & Validation
 
 - [x] [T030] Ecrire tests unitaires pour `plakar_client.py` (mock subprocess, scenarios passphrase @store vs /path) — `tests/test_plakar_client.py`
-- [ ] [T031] Ecrire tests unitaires pour `extractors.py` (chaque format, exif, binary skip) — `tests/test_extractors.py`
+- [x] [T031] Ecrire tests unitaires pour `extractors.py` (chaque format, exif, binary skip) — `tests/test_extractors.py`
 - [ ] [T032] Ecrire tests unitaires pour `state.py` (load/save, progression, reprise) — `tests/test_state.py`
 - [ ] [T033] Ecrire test d'integration : `index` sur un store Plakar de test puis `query` pour verifier les resultats — `tests/test_integration.py`
 - [ ] [T034] Valider le scenario [P1] : index + query retourne fichiers attendus — manuel
@@ -71,4 +71,5 @@
 - Complete : T026 — Finalisation config.py (list_stores(), validation repo vide, isolation complete multi-store)
 - Observations : Phase 3 (Integration & Wiring) terminee. Les 4 commandes CLI fonctionnent (index, query, status, version).
 - Complete : T030 — Tests unitaires plakar_client.py (16 tests, mock subprocess, passphrase @store vs /path, erreurs)
-- Prochaine : T031
+- Complete : T031 — Tests extractors.py (22 tests: texte, PDF, DOCX, XLSX, EXIF, SKIP_EXTENSIONS)
+- Prochaine : T032
