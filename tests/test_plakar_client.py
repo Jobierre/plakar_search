@@ -1,4 +1,3 @@
-import json
 import subprocess
 from unittest.mock import MagicMock, patch
 
@@ -43,12 +42,12 @@ class TestPlakarClientRun:
     def test_run_success(self):
         client = PlakarClient("@gdrive")
         mock_result = MagicMock()
-        mock_result.stdout = '[]'
+        mock_result.stdout = ""
 
         with patch("subprocess.run", return_value=mock_result) as mock_run:
-            result = client._run("ls", "--json")
+            result = client._run("ls")
             mock_run.assert_called_once_with(
-                ["plakar", "at", "@gdrive", "ls", "--json"],
+                ["plakar", "at", "@gdrive", "ls"],
                 capture_output=True,
                 text=True,
                 check=True,
@@ -83,39 +82,69 @@ class TestPlakarClientRun:
 class TestPlakarClientListSnapshots:
     def test_list_snapshots(self):
         client = PlakarClient("@gdrive")
-        fake_snapshots = [{"id": "abc123", "date": "2024-01-01"}]
+        stdout = (
+            "2024-01-01T12:00:00Z   abc12345   10 KiB        2s /home/user/docs\n"
+            "2024-01-02T13:00:00Z   def67890   20 MiB        5s /home/user/images\n"
+        )
         mock_result = MagicMock()
-        mock_result.stdout = json.dumps(fake_snapshots)
+        mock_result.stdout = stdout
 
         with patch.object(client, "_run", return_value=mock_result) as mock_run:
             result = client.list_snapshots()
-            mock_run.assert_called_once_with("ls", "--json")
-            assert result == fake_snapshots
+            mock_run.assert_called_once_with("ls")
+            assert len(result) == 2
+            assert result[0]["id"] == "abc12345"
+            assert result[0]["date"] == "2024-01-01T12:00:00Z"
+            assert result[0]["root_path"] == "/home/user/docs"
+            assert result[1]["id"] == "def67890"
 
     def test_list_snapshots_empty(self):
         client = PlakarClient("@gdrive")
         mock_result = MagicMock()
-        mock_result.stdout = "[]"
+        mock_result.stdout = ""
 
         with patch.object(client, "_run", return_value=mock_result):
             result = client.list_snapshots()
             assert result == []
 
+    def test_list_snapshots_skips_malformed(self):
+        client = PlakarClient("@gdrive")
+        stdout = "garbage line\n2024-01-01T12:00:00Z   abc12345   10 KiB        2s /path"
+        mock_result = MagicMock()
+        mock_result.stdout = stdout
+
+        with patch.object(client, "_run", return_value=mock_result):
+            result = client.list_snapshots()
+            assert len(result) == 1
+
 
 class TestPlakarClientListFiles:
     def test_list_files(self):
         client = PlakarClient("@gdrive")
-        fake_files = [
-            {"path": "/doc.txt", "mime_type": "text/plain"},
-            {"path": "/img.jpg", "mime_type": "image/jpeg"},
-        ]
+        stdout = (
+            "2024-01-01T12:00:00Z -rw-r--r-- alice staff 1.0 KiB /home/user/doc.txt\n"
+            "2024-01-01T12:00:00Z -rw-r--r-- alice staff 2.5 MiB /home/user/img.jpg\n"
+        )
         mock_result = MagicMock()
-        mock_result.stdout = json.dumps(fake_files)
+        mock_result.stdout = stdout
 
         with patch.object(client, "_run", return_value=mock_result) as mock_run:
-            result = client.list_files("abc123")
-            mock_run.assert_called_once_with("ls", "abc123", "--json")
-            assert result == fake_files
+            result = client.list_files("abc12345")
+            mock_run.assert_called_once_with("ls", "-recursive", "abc12345")
+            assert len(result) == 2
+            assert result[0]["path"] == "/home/user/doc.txt"
+            assert result[0]["perms"] == "-rw-r--r--"
+            assert result[0]["size"] == "1.0 KiB"
+            assert result[1]["path"] == "/home/user/img.jpg"
+
+    def test_list_files_empty(self):
+        client = PlakarClient("@gdrive")
+        mock_result = MagicMock()
+        mock_result.stdout = ""
+
+        with patch.object(client, "_run", return_value=mock_result):
+            result = client.list_files("abc12345")
+            assert result == []
 
 
 class TestPlakarClientCat:

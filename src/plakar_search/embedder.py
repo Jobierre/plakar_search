@@ -40,15 +40,20 @@ class SigLIP2:
         self._model.eval()
 
     def encode_image(self, images: list[Image.Image]) -> list[list[float]]:
-        inputs = self._processor(images=images, return_tensors="pt")
+        inputs = self._processor(
+            text=[""] * len(images), images=images, return_tensors="pt", padding=True
+        )
         inputs = {k: v.to(self._model.device) for k, v in inputs.items()}
         with torch.no_grad():
             outputs = self._model(**inputs)
         return outputs.image_embeds.cpu().float().tolist()
 
     def encode_text_query(self, texts: list[str]) -> list[list[float]]:
+        from PIL import Image
+
+        dummy = Image.new("RGB", (16, 16), color="black")
         inputs = self._processor(
-            text=texts, return_tensors="pt", padding="max_length"
+            text=texts, images=[dummy], return_tensors="pt", padding="max_length"
         )
         inputs = {k: v.to(self._model.device) for k, v in inputs.items()}
         with torch.no_grad():

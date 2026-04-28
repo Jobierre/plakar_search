@@ -34,12 +34,44 @@ class PlakarClient:
             raise PlakarError("L'outil 'plakar' est introuvable. Verifie qu'il est installe et dans le PATH.")
 
     def list_snapshots(self) -> list[dict]:
-        result = self._run("ls", "--json")
-        return json.loads(result.stdout)
+        result = self._run("ls")
+        snapshots = []
+        for line in result.stdout.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(None, 5)
+            if len(parts) < 6:
+                continue
+            snapshots.append({
+                "id": parts[1],
+                "date": parts[0],
+                "size": f"{parts[2]} {parts[3]}",
+                "duration": parts[4],
+                "root_path": parts[5],
+            })
+        return snapshots
 
     def list_files(self, snapshot: str) -> list[dict]:
-        result = self._run("ls", snapshot, "--json")
-        return json.loads(result.stdout)
+        result = self._run("ls", "-recursive", snapshot)
+        files = []
+        for line in result.stdout.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(None, 6)
+            if len(parts) < 7:
+                continue
+            files.append({
+                "date": parts[0],
+                "perms": parts[1],
+                "owner": parts[2],
+                "group": parts[3],
+                "size": f"{parts[4]} {parts[5]}",
+                "path": parts[6],
+                "mime_type": "",
+            })
+        return files
 
     def cat(self, snapshot: str, path: str) -> bytes:
         cmd = ["plakar", "at", self.repo, "cat", f"{snapshot}:{path}"]
