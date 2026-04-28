@@ -203,22 +203,15 @@ def _show_store_status(repo: str) -> None:
 
 
 def _show_all_stores() -> None:
-    from plakar_search.config import STORES_DIR
+    from plakar_search.config import STORES_DIR, list_stores
     from plakar_search.state import IndexState
 
-    if not STORES_DIR.exists():
+    store_names = list_stores()
+
+    if not store_names:
         console.print(
             "[yellow]Aucun store indexe. Lancez 'plakar-search index <store>' d'abord.[/yellow]"
         )
-        return
-
-    store_dirs = sorted(
-        [d for d in STORES_DIR.iterdir() if d.is_dir()],
-        key=lambda d: d.name,
-    )
-
-    if not store_dirs:
-        console.print("[yellow]Aucun store indexe.[/yellow]")
         return
 
     table = Table(title="Stores indexes")
@@ -227,16 +220,28 @@ def _show_all_stores() -> None:
     table.add_column("Progression")
     table.add_column("Derniere MAJ")
 
-    for store_dir in store_dirs:
-        state_path = store_dir / "state.json"
+    for name in store_names:
+        state_path = STORES_DIR / name / "state.json"
         if state_path.exists():
-            state = IndexState.load(store_dir.name, state_path)
+            state = IndexState.load(name, state_path)
             done = state.done_count
             total = state.total_count
             prog = f"{done}/{total}" if total else "0/0"
             last = state.last_updated[:10] if state.last_updated else "-"
-            table.add_row(store_dir.name, str(done), prog, last)
+            table.add_row(name, str(done), prog, last)
         else:
-            table.add_row(store_dir.name, "0", "non indexe", "-")
+            table.add_row(name, "0", "non indexe", "-")
 
     console.print(table)
+
+
+@app.command()
+def version() -> None:
+    """Affiche la version et les modeles configures."""
+    console.print(f"[bold]plakar-search[/bold] v{__version__}")
+    console.print()
+    console.print("[bold]Modeles configures :[/bold]")
+    console.print("  Texte  : google/embeddinggemma-300m (768 dimensions)")
+    console.print("  Images : google/siglip2-base-patch16-224 (768 dimensions)")
+    console.print()
+    console.print("[dim]Les modeles sont telecharges automatiquement au premier usage.[/dim]")

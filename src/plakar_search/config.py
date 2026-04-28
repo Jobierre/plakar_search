@@ -13,8 +13,12 @@ DEFAULT_MAX_WORKERS = 4
 
 def store_dir_name(repo: str) -> str:
     if repo.startswith("@"):
-        return repo[1:]
-    return repo.lstrip("/").replace("/", "_")
+        name = repo[1:]
+    else:
+        name = repo.lstrip("/").replace("/", "_")
+    if not name:
+        raise ValueError(f"Le repository '{repo}' produit un nom de store vide.")
+    return name
 
 
 def store_path(repo: str) -> Path:
@@ -27,3 +31,13 @@ def store_chroma_path(repo: str) -> Path:
 
 def store_state_path(repo: str) -> Path:
     return store_path(repo) / "state.json"
+
+
+def list_stores() -> list[str]:
+    if not STORES_DIR.exists():
+        return []
+    return sorted(
+        d.name
+        for d in STORES_DIR.iterdir()
+        if d.is_dir()
+    )

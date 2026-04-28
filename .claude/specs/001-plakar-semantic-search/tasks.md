@@ -29,8 +29,8 @@
 - [x] [T022] [REQ-001,002,005,090,091] Creer `cli.py` : commande `index` (wires Indexer + rich progress, accepte repo + --passphrase + --verbose) — `src/plakar_search/cli.py`
 - [x] [T023] [REQ-003,005,043] Ajouter commande `query` dans `cli.py` (wires Searcher, affiche table rich : score, snapshot, path, type) — `src/plakar_search/cli.py`
 - [x] [T024] [REQ-004,071] Ajouter commande `status` dans `cli.py` (lit state.json du store ou liste tous les stores) — `src/plakar_search/cli.py`
-- [ ] [T025] [REQ-092] Ajouter commande `version` dans `cli.py` (affiche version + modeles charges) — `src/plakar_search/cli.py`
-- [ ] [T026] [REQ-070,072] Finaliser `config.py` : gestion multi-store (un dossier chromadb/ + state.json par store), isolation complete — `src/plakar_search/config.py`
+- [x] [T025] [REQ-092] Ajouter commande `version` dans `cli.py` (affiche version + modeles charges) — `src/plakar_search/cli.py`
+- [x] [T026] [REQ-070,072] Finaliser `config.py` : gestion multi-store (un dossier chromadb/ + state.json par store), isolation complete — `src/plakar_search/config.py`
 
 ## Phase 4 — Tests & Validation
 
@@ -67,4 +67,7 @@
 - Complete : T022 — Creation de cli.py (commande index avec rich Progress, --passphrase, --verbose, --help avec exemples)
 - Complete : T023 — Ajout commande query (wires Searcher, table rich Score/Snapshot/Path/Type, --snapshot --type --limit)
 - Complete : T024 — Ajout commande status (detail par store ou liste de tous les stores, lit state.json + compteurs ChromaDB)
-- Prochaine : T025
+- Complete : T025 — Ajout commande version (affiche version + modeles configures sans les charger)
+- Complete : T026 — Finalisation config.py (list_stores(), validation repo vide, isolation complete multi-store)
+- Observations : Phase 3 (Integration & Wiring) terminee. Les 4 commandes CLI fonctionnent (index, query, status, version).
+- Prochaine : T030
