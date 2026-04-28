@@ -25,6 +25,7 @@ dependencies = [
     "openpyxl>=3.1",
     "Pillow>=11",
     "python-magic>=0.4",
+    "huggingface_hub",
 ]
 
 [project.optional-dependencies]
