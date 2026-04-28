@@ -39,6 +39,10 @@ class Indexer:
         if verbose:
             logging.basicConfig(level=logging.DEBUG)
 
+    @property
+    def interrupted(self) -> bool:
+        return self._interrupted
+
     def _on_interrupt(self, signum, frame):
         self._interrupted = True
         logger.warning("Interruption detectee, finalisation du batch en cours...")
