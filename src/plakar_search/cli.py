@@ -143,3 +143,100 @@ def query(
         )
 
     console.print(table)
+
+
+@app.command()
+def status(
+    repo: str = typer.Argument(
+        None,
+        help="Repository Plakar (@destination ou /chemin). Si omis, liste tous les stores indexes.",
+    ),
+) -> None:
+    """Affiche l'etat d'indexation d'un ou plusieurs stores.
+
+    Exemples :
+        plakar-search status @gdrive
+        plakar-search status
+    """
+    if repo:
+        _show_store_status(repo)
+    else:
+        _show_all_stores()
+
+
+def _show_store_status(repo: str) -> None:
+    from plakar_search.config import store_state_path
+    from plakar_search.state import IndexState
+    from plakar_search.store import VectorStore
+
+    state = IndexState.load(repo, store_state_path(repo))
+
+    try:
+        store = VectorStore(repo)
+        text_count = store.count_text()
+        image_count = store.count_images()
+    except Exception:
+        text_count = 0
+        image_count = 0
+
+    if not state.snapshots:
+        console.print(f"[yellow]Store '{repo}' non encore indexe.[/yellow]")
+        return
+
+    table = Table(title=f"Statut : [bold]{repo}[/bold]")
+    table.add_column("Propriete", style="cyan")
+    table.add_column("Valeur", style="white")
+
+    table.add_row("Snapshots indexes", f"{state.done_count} / {state.total_count}")
+    table.add_row(
+        "Derniere mise a jour",
+        state.last_updated[:19] if state.last_updated else "jamais",
+    )
+    table.add_row("Entrees texte", str(text_count))
+    table.add_row("Entrees image", str(image_count))
+    table.add_row(
+        "Progression",
+        f"{state.done_count}/{state.total_count} snapshots",
+    )
+
+    console.print(table)
+
+
+def _show_all_stores() -> None:
+    from plakar_search.config import STORES_DIR
+    from plakar_search.state import IndexState
+
+    if not STORES_DIR.exists():
+        console.print(
+            "[yellow]Aucun store indexe. Lancez 'plakar-search index <store>' d'abord.[/yellow]"
+        )
+        return
+
+    store_dirs = sorted(
+        [d for d in STORES_DIR.iterdir() if d.is_dir()],
+        key=lambda d: d.name,
+    )
+
+    if not store_dirs:
+        console.print("[yellow]Aucun store indexe.[/yellow]")
+        return
+
+    table = Table(title="Stores indexes")
+    table.add_column("Store", style="cyan")
+    table.add_column("Snapshots", justify="right")
+    table.add_column("Progression")
+    table.add_column("Derniere MAJ")
+
+    for store_dir in store_dirs:
+        state_path = store_dir / "state.json"
+        if state_path.exists():
+            state = IndexState.load(store_dir.name, state_path)
+            done = state.done_count
+            total = state.total_count
+            prog = f"{done}/{total}" if total else "0/0"
+            last = state.last_updated[:10] if state.last_updated else "-"
+            table.add_row(store_dir.name, str(done), prog, last)
+        else:
+            table.add_row(store_dir.name, "0", "non indexe", "-")
+
+    console.print(table)
