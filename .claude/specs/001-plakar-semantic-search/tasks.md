@@ -25,7 +25,7 @@
 ## Phase 3 — Integration & Wiring
 
 - [x] [T020] [REQ-001,002,060,061,063,090] Creer `indexer.py` : classe `Indexer` orchestrant l'indexation complete (list snapshots → list files → extract text/EXIF → embed → store), avec `ThreadPoolExecutor`, gestion Ctrl+C, reprise via state, barre rich — `src/plakar_search/indexer.py`
-- [ ] [T021] [REQ-040,041,042,080,081,082] Creer `searcher.py` : classe `Searcher` avec methode `search()` encodant la query avec EGemma et SigLIP2, interrogeant les 2 collections, fusionnant les scores (min-max normalisation), appliquant filtres snapshot/type/limit — `src/plakar_search/searcher.py`
+- [x] [T021] [REQ-040,041,042,080,081,082] Creer `searcher.py` : classe `Searcher` avec methode `search()` encodant la query avec EGemma et SigLIP2, interrogeant les 2 collections, fusionnant les scores (min-max normalisation), appliquant filtres snapshot/type/limit — `src/plakar_search/searcher.py`
 - [ ] [T022] [REQ-001,002,005,090,091] Creer `cli.py` : commande `index` (wires Indexer + rich progress, accepte repo + --passphrase + --verbose) — `src/plakar_search/cli.py`
 - [ ] [T023] [REQ-003,005,043] Ajouter commande `query` dans `cli.py` (wires Searcher, affiche table rich : score, snapshot, path, type) — `src/plakar_search/cli.py`
 - [ ] [T024] [REQ-004,071] Ajouter commande `status` dans `cli.py` (lit state.json du store ou liste tous les stores) — `src/plakar_search/cli.py`
@@ -62,5 +62,6 @@
 
 ### Session 2026-04-28 00:15
 - Complete : T020 — Creation de indexer.py (orchestrateur : ThreadPoolExecutor, batch embedding, SIGINT handler, rich progress optionnel)
+- Complete : T021 — Creation de searcher.py (recherche hybride texte+image, normalisation min-max, filtres snapshot/type/limit)
 - Observations : Venv cree (.venv/), package installe en dev mode. Toutes les dependances resolues.
-- Prochaine : T021
+- Prochaine : T022
