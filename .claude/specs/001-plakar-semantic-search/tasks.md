@@ -37,7 +37,7 @@
 - [x] [T030] Ecrire tests unitaires pour `plakar_client.py` (mock subprocess, scenarios passphrase @store vs /path) — `tests/test_plakar_client.py`
 - [x] [T031] Ecrire tests unitaires pour `extractors.py` (chaque format, exif, binary skip) — `tests/test_extractors.py`
 - [x] [T032] Ecrire tests unitaires pour `state.py` (load/save, progression, reprise) — `tests/test_state.py`
-- [ ] [T033] Ecrire test d'integration : `index` sur un store Plakar de test puis `query` pour verifier les resultats — `tests/test_integration.py`
+- [x] [T033] Ecrire test d'integration : `index` sur un store Plakar de test puis `query` pour verifier les resultats — `tests/test_integration.py`
 - [ ] [T034] Valider le scenario [P1] : index + query retourne fichiers attendus — manuel
 - [ ] [T035] Valider les scenarios [P4] (passphrase), [P5] (fichiers non supportes), [P6] (interruption/reprise) — manuel
 - [ ] [T036] Valider les scenarios [P2] (multi-stores), [P3] (filtres), [P7] (store inaccessible), [P8] (status) — manuel
@@ -73,4 +73,6 @@
 - Complete : T030 — Tests unitaires plakar_client.py (16 tests, mock subprocess, passphrase @store vs /path, erreurs)
 - Complete : T031 — Tests extractors.py (22 tests: texte, PDF, DOCX, XLSX, EXIF, SKIP_EXTENSIONS)
 - Complete : T032 — Tests state.py (11 tests: load/save/resume, atomic write, lifecycle)
-- Prochaine : T033
+- Complete : T033 — Test d'integration index→query (4 tests, mock PlakarClient + fake embedders, vraie ChromaDB)
+- Observations : 53 tests passent en 2.48s. 0 crash.
+- Prochaine : T034
