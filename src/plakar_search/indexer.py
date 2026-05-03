@@ -28,9 +28,11 @@ class Indexer:
         repo: str,
         passphrase: str | None = None,
         verbose: bool = False,
+        max_workers: int = DEFAULT_MAX_WORKERS,
     ):
         self.repo = repo
         self.verbose = verbose
+        self.max_workers = max_workers
         self.client = PlakarClient(repo, passphrase)
         self.store = VectorStore(repo)
         self.state = IndexState.load(repo, store_state_path(repo))
