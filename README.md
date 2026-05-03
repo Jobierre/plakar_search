@@ -80,9 +80,12 @@ plakar-search index /var/backups --passphrase "secret"
 
 # Mode verbeux (voir les fichiers ignorés)
 plakar-search index @s3 --verbose
+
+# Ajuster le parallélisme (défaut : 16 workers)
+plakar-search index @macbook --workers 32
 ```
 
-L'indexation est **interruptible** (Ctrl+C) et **reprenable** : relance la même commande, elle reprend là où elle s'était arrêtée grâce à `state.json`.
+L'indexation est **parallèle** (16 workers par défaut, ajustable avec `--workers`), **interruptible** (Ctrl+C) et **reprenable** : relance la même commande, elle reprend là où elle s'était arrêtée grâce à `state.json`.
 
 ### Rechercher
 
