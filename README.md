@@ -40,7 +40,32 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-Accepter la licence Google Gemma avant le premier usage (HuggingFace te la présentera).
+### Authentification HuggingFace
+
+Les modèles Google (EmbeddingGemma-300M et SigLIP2) sont hébergés sur HuggingFace et nécessitent **deux choses** :
+
+**1. Accepter les licences Google**
+
+Connecte-toi sur [huggingface.co](https://huggingface.co) puis accepte les conditions d'utilisation sur les pages des deux modèles :
+- [google/embeddinggemma-300m](https://huggingface.co/google/embeddinggemma-300m)
+- [google/siglip2-base-patch16-224](https://huggingface.co/google/siglip2-base-patch16-224)
+
+**2. Authentifier ta machine**
+
+Crée un token d'accès sur [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) (type « Read » suffit), puis :
+
+```bash
+# Installation du CLI HuggingFace si pas déjà fait
+pip install -U huggingface_hub
+
+# Login interactif (colle ton token quand demandé)
+hf auth login
+
+# Ou directement avec la variable d'environnement
+export HF_TOKEN="hf_xxx..."
+```
+
+> **Note :** Si tu ne t'authentifies pas, les modèles ne pourront pas être téléchargés et l'indexation échouera au premier lancement avec une erreur `403 Forbidden`. Les modèles sont mis en cache dans `~/.cache/huggingface/` après le premier téléchargement.
 
 ## Utilisation
 
