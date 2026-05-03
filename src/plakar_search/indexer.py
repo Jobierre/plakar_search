@@ -28,9 +28,11 @@ class Indexer:
         repo: str,
         passphrase: str | None = None,
         verbose: bool = False,
+        max_workers: int = DEFAULT_MAX_WORKERS,
     ):
         self.repo = repo
         self.verbose = verbose
+        self.max_workers = max_workers
         self.client = PlakarClient(repo, passphrase)
         self.store = VectorStore(repo)
         self.state = IndexState.load(repo, store_state_path(repo))
@@ -145,7 +147,7 @@ class Indexer:
     ) -> None:
         egemma = get_egemma()
 
-        with ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS) as executor:
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             for i in range(0, len(files), TEXT_BATCH_SIZE):
                 if self._interrupted:
                     break
@@ -208,7 +210,7 @@ class Indexer:
         egemma = get_egemma()
         siglip = get_siglip()
 
-        with ThreadPoolExecutor(max_workers=DEFAULT_MAX_WORKERS) as executor:
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             for i in range(0, len(files), IMAGE_BATCH_SIZE):
                 if self._interrupted:
                     break

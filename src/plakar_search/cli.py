@@ -11,7 +11,7 @@ from rich.progress import (
 from rich.table import Table
 
 from plakar_search import __version__
-from plakar_search.config import DEFAULT_LIMIT
+from plakar_search.config import DEFAULT_LIMIT, DEFAULT_MAX_WORKERS
 from plakar_search.plakar_client import PlakarError
 
 app = typer.Typer(
@@ -40,6 +40,13 @@ def index(
         "-v",
         help="Afficher les logs detailles (fichiers ignores, erreurs)",
     ),
+    workers: int = typer.Option(
+        DEFAULT_MAX_WORKERS,
+        "--workers",
+        "-w",
+        min=1,
+        help=f"Nombre de workers paralleles pour l'indexation (defaut: {DEFAULT_MAX_WORKERS})",
+    ),
 ) -> None:
     """Indexe tous les snapshots d'un store Plakar dans ChromaDB.
 
@@ -47,11 +54,12 @@ def index(
         plakar-search index @gdrive
         plakar-search index /var/backups --passphrase "secret"
         plakar-search index @s3 --verbose
+        plakar-search index @macbook --workers 32
     """
     from plakar_search.indexer import Indexer
 
     try:
-        indexer = Indexer(repo, passphrase=passphrase, verbose=verbose)
+        indexer = Indexer(repo, passphrase=passphrase, verbose=verbose, max_workers=workers)
     except PlakarError as e:
         console.print(f"[bold red]Erreur :[/bold red] {e}")
         raise typer.Exit(code=1)
