@@ -5,8 +5,8 @@
 > Ne pas modifier l'ordre des taches sans raison.
 
 ## Phase 1 — Setup & Preparation
-- [ ] [T001] Bumper la version a 0.2.0 dans `__init__.py` — `src/plakar_search/__init__.py`
-- [ ] [T002] Bumper la version a 0.2.0 dans `pyproject.toml` — `pyproject.toml`
+- [x] [T001] Bumper la version a 0.2.0 dans `__init__.py` — `src/plakar_search/__init__.py`
+- [x] [T002] Bumper la version a 0.2.0 dans `pyproject.toml` — `pyproject.toml`
 
 ## Phase 2 — Core Implementation
 - [ ] [T010] [REQ-003] Passer `DEFAULT_MAX_WORKERS` de 4 a 16 — `src/plakar_search/config.py`

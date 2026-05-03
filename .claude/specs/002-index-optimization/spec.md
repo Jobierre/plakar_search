@@ -2,7 +2,7 @@
 
 ## Metadata
 - Cree : 2026-05-03
-- Status : Draft
+- Status : In Progress
 - Branche : feature/002-index-optimization
 
 ## Resume
