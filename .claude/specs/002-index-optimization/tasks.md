@@ -9,7 +9,7 @@
 - [x] [T002] Bumper la version a 0.2.0 dans `pyproject.toml` — `pyproject.toml`
 
 ## Phase 2 — Core Implementation
-- [ ] [T010] [REQ-003] Passer `DEFAULT_MAX_WORKERS` de 4 a 16 — `src/plakar_search/config.py`
+- [x] [T010] [REQ-003] Passer `DEFAULT_MAX_WORKERS` de 4 a 16 — `src/plakar_search/config.py`
 - [ ] [T011] [REQ-002] Modifier `Indexer.__init__` pour accepter `max_workers` — `src/plakar_search/indexer.py`
 - [ ] [T012] [REQ-002] Remplacer `DEFAULT_MAX_WORKERS` par `self.max_workers` dans les 2 `ThreadPoolExecutor` — `src/plakar_search/indexer.py`
 - [ ] [T013] [REQ-001] Ajouter le flag `--workers` a la commande `index` et le passer a `Indexer` — `src/plakar_search/cli.py`

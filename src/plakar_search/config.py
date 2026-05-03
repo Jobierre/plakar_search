@@ -8,7 +8,7 @@ COLLECTION_IMAGES = "images"
 VECTOR_DIM = 768
 
 DEFAULT_LIMIT = 20
-DEFAULT_MAX_WORKERS = 4
+DEFAULT_MAX_WORKERS = 16
 
 
 def store_dir_name(repo: str) -> str:
